@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TestApp.DataLayer.Repositories;
 using TestApp.Models.Entities;
-using TestApp.Models.Entities.Requests;
 
 namespace TestApp.Api.Controllers;
 
@@ -25,15 +24,15 @@ public class TestController : ControllerBase
     /// <param name="requestList">Список элементов</param>
     [HttpPut]
     [Route("PutList")]
-    public async Task Put([FromBody] IEnumerable<RequestElement> requestList)
+    public async Task Put([FromBody] Dictionary<int,string> requestList)
     {
         await _listRepository.ClearListAsync();
 
         var number = 1;
-        var listElements = requestList
-            .OrderBy(el => el.Code)
-            .Select(requestElement => new Element(number++, requestElement.Code, requestElement.Value))
-            .ToList();
+         var listElements = requestList
+             .OrderBy(el => el.Key)
+             .Select(requestElement => new Element(number++, requestElement.Key, requestElement.Value))
+             .ToList();
 
         await _listRepository.PutListAsync(listElements);
     }

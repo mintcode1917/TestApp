@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react';
+import {Element} from "./components/Element";
+import {useList} from "./hooks/list";
+import {Modal} from "./components/Modal";
+import {AddList} from "./components/AddList";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const list = useList();
+
+    return (
+        <div className="container mx-auto mx-w-2xl pt-5">
+            {list.map(el => <Element element={el} key={el.number}/>)}
+
+            <Modal>
+                <AddList/>
+            </Modal>
+        </div>);
 }
 
 export default App;
