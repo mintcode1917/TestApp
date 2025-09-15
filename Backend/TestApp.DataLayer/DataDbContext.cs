@@ -18,6 +18,6 @@ public class DataDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Element>().HasKey(u => u.Number);
+        modelBuilder.Entity<Element>().HasKey(u => u.Id);
     }
 }

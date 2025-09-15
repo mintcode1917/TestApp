@@ -1,4 +1,5 @@
 using TestApp.Api.Configurations;
+using TestApp.Application;
 using TestApp.DataLayer;
 using TestApp.Models.Settings;
 
@@ -19,6 +20,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<IListService, ListService>();
 builder.Services.ConfigureDatabase();
 builder.Services.ConfigureSettings<DbSettings>(builder.Configuration, nameof(DbSettings));
 

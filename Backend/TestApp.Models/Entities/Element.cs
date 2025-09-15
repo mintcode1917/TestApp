@@ -8,7 +8,7 @@ public class Element
     /// <summary>
     /// Порядковый номер
     /// </summary>
-    public int Number { get; private set; }
+    public int Id { get;}
 
     /// <summary>
     /// Код записи
@@ -26,9 +26,8 @@ public class Element
     /// <param name="number"><see cref="Number"/></param>
     /// <param name="code"><see cref="Code"/></param>
     /// <param name="value"><see cref="Value"/></param>
-    public Element(int number, int code, string value)
+    public Element(int code, string value)
     {
-        Number = number;
         Code = code;
         Value = value;
     }

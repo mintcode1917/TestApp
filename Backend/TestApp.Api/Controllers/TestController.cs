@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using TestApp.Application;
 using TestApp.DataLayer.Repositories;
+using TestApp.Models.Dtos;
 using TestApp.Models.Entities;
 
 namespace TestApp.Api.Controllers;
@@ -11,11 +13,11 @@ namespace TestApp.Api.Controllers;
 [Route("[controller]")]
 public class TestController : ControllerBase
 {
-    private readonly IListRepository _listRepository;
+    private readonly IListService _listService;
 
-    public TestController(IListRepository listRepository)
+    public TestController(IListService listService)
     {
-        _listRepository = listRepository;
+        _listService = listService;
     }
 
     /// <summary>
@@ -24,28 +26,18 @@ public class TestController : ControllerBase
     /// <param name="requestList">Список элементов</param>
     [HttpPut]
     [Route("PutList")]
-    public async Task Put([FromBody] Dictionary<int,string> requestList)
+    public async Task Put([FromBody] PutListDto[] requestList)
     {
-        await _listRepository.ClearListAsync();
-
-        var number = 1;
-         var listElements = requestList
-             .OrderBy(el => el.Key)
-             .Select(requestElement => new Element(number++, requestElement.Key, requestElement.Value))
-             .ToList();
-
-        await _listRepository.PutListAsync(listElements);
+       await _listService.PutListAsync(requestList);
     }
     
     /// <summary>
     /// Получить список из БД с учетом фильтров и пагинации
     /// </summary>
-    /// <param name="pageNumber">Номер страницы</param>
-    /// <param name="pageSize">Размер страницы</param>
     [HttpGet]
     [Route("GetList")]
-    public async Task<IEnumerable<Element>> Get(int pageNumber, int pageSize)
+    public async Task<IEnumerable<Element>> Get(GetListDto request)
     {
-        return await _listRepository.GetListAsync(pageNumber, pageSize);
+        return await _listService.GetListAsync(request);
     }
 }
